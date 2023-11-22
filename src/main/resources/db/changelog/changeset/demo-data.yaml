@@ -21,7 +21,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertTechInspectionData
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: tech_inspection
@@ -41,7 +41,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertCarData2
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: cars
@@ -61,7 +61,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertTechInspectionData2
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: tech_inspection
@@ -81,7 +81,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertCarData3
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: cars
@@ -101,7 +101,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertTechInspectionData3
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: tech_inspection
@@ -121,7 +121,7 @@ databaseChangeLog:
 
   - changeSet:
       id: insertCarData4
-      author: yourName
+      author: Stanislaw
       changes:
         - insert:
             tableName: cars

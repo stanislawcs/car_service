@@ -1,14 +1,17 @@
 package com.example.carservice.services.impl;
 
 import com.example.carservice.domain.Car;
+import com.example.carservice.domain.exceptions.CarNotFoundException;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -19,7 +22,8 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDTO getOneById(Long id) {
-        return carMapper.toDTO(carRepository.getById(id));
+        return carMapper.toDTO(carRepository.findById(id)
+                .orElseThrow(() -> new CarNotFoundException("Car was not found")));
     }
 
     @Override

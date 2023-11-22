@@ -24,10 +24,13 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarBrand brand;
 
+    @Column(nullable = false,unique = true)
     private String number;
 
+    @Column(nullable = false)
     private String color;
 
+    @Column(nullable = false)
     private double price;
 
     @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)

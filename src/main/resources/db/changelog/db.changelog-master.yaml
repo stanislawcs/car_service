@@ -5,4 +5,3 @@ databaseChangeLog:
       file: db/changelog/changeset/create-tech-inspection-table.yaml
   - include:
       file: db/changelog/changeset/demo-data.yaml
-

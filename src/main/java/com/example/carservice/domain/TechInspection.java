@@ -21,12 +21,15 @@ public class TechInspection {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
 
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @Column(nullable = false)
     private LocalDate dateOfInspection;
 
+    @Column(nullable = false)
     private String address;
 
     private String services;

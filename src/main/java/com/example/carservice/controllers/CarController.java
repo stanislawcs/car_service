@@ -2,6 +2,7 @@ package com.example.carservice.controllers;
 
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.services.CarService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +20,14 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addOne(@RequestBody CarDTO carDTO) {
+    public ResponseEntity<String> addOne(@RequestBody @Valid CarDTO carDTO) {
         carService.save(carDTO);
         return new ResponseEntity<>("Car is added", HttpStatus.OK);
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<String> update(@PathVariable("id") Long id,
-                                         @RequestBody CarDTO carDTO) {
+                                         @RequestBody @Valid CarDTO carDTO) {
         carService.update(carDTO, id);
         return new ResponseEntity<>("Car is updated", HttpStatus.OK);
     }
