@@ -1,12 +1,11 @@
 package com.example.carservice.domain;
 
 import com.example.carservice.domain.system.CarBrand;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
@@ -15,27 +14,23 @@ import java.util.List;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Car {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "brand")
     @Enumerated(EnumType.STRING)
     private CarBrand brand;
 
-    @Column(name = "number")
     private String number;
 
-    @Column(name = "color")
     private String color;
 
-    @Column(name = "price")
     private double price;
 
-    @OneToMany(mappedBy = "car")
-    @JsonManagedReference
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<TechInspection> techInspections;
 }

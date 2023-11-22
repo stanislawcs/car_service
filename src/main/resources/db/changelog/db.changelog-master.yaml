@@ -1,8 +1,8 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/changeset/create-car-table.sql
+      file: db/changelog/changeset/create-car-table.yaml
   - include:
-      file: db/changelog/changeset/create-tech-inspection-table.sql
+      file: db/changelog/changeset/create-tech-inspection-table.yaml
   - include:
-      file: db/changelog/changeset/demo_data.sql
+      file: db/changelog/changeset/demo-data.yaml
 

@@ -1,13 +1,14 @@
 package com.example.carservice.services;
 
 import com.example.carservice.domain.Car;
+import com.example.carservice.dto.CarDTO;
 
 public interface CarService {
-    Car getOneById(Long id);
+    CarDTO getOneById(Long id);
 
-    void update(Car car,Long id);
+    void update(CarDTO car,Long id);
 
-    void save(Car car);
+    void save(CarDTO carDTO);
 
     void delete(Long id);
 }

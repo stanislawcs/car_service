@@ -1,0 +1,140 @@
+databaseChangeLog:
+  - changeSet:
+      id: insertCarData
+      author: Stanislaw
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: brand
+                  value: 'VOLKSWAGEN'
+              - column:
+                  name: number
+                  value: '1234KP-7'
+              - column:
+                  name: color
+                  value: 'GREEN'
+              - column:
+                  name: price
+                  value: 45032
+
+  - changeSet:
+      id: insertTechInspectionData
+      author: yourName
+      changes:
+        - insert:
+            tableName: tech_inspection
+            columns:
+              - column:
+                  name: car_id
+                  value: 1
+              - column:
+                  name: date_of_inspection
+                  value: '2020-04-03'
+              - column:
+                  name: address
+                  value: 'Hrodna, Solomovaya, 33'
+              - column:
+                  name: services
+                  value: '1-service, 2-service, 3-service'
+
+  - changeSet:
+      id: insertCarData2
+      author: yourName
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: brand
+                  value: 'HYUNDAI'
+              - column:
+                  name: number
+                  value: '0046KP-4'
+              - column:
+                  name: color
+                  value: 'BLACK'
+              - column:
+                  name: price
+                  value: 50000
+
+  - changeSet:
+      id: insertTechInspectionData2
+      author: yourName
+      changes:
+        - insert:
+            tableName: tech_inspection
+            columns:
+              - column:
+                  name: car_id
+                  value: 2
+              - column:
+                  name: date_of_inspection
+                  value: '2022-06-10'
+              - column:
+                  name: address
+                  value: 'Hrodna, Folush, 11'
+              - column:
+                  name: services
+                  value: '1-service, 2-service, 3-service'
+
+  - changeSet:
+      id: insertCarData3
+      author: yourName
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: brand
+                  value: 'VOLVO'
+              - column:
+                  name: number
+                  value: '2222KH-7'
+              - column:
+                  name: color
+                  value: 'BLUE'
+              - column:
+                  name: price
+                  value: 60000
+
+  - changeSet:
+      id: insertTechInspectionData3
+      author: yourName
+      changes:
+        - insert:
+            tableName: tech_inspection
+            columns:
+              - column:
+                  name: car_id
+                  value: 1
+              - column:
+                  name: date_of_inspection
+                  value: '2022-06-17'
+              - column:
+                  name: address
+                  value: 'Minsk, Yakuba Kolasa, 57'
+              - column:
+                  name: services
+                  value: '1-service, 2-service, 3-service'
+
+  - changeSet:
+      id: insertCarData4
+      author: yourName
+      changes:
+        - insert:
+            tableName: cars
+            columns:
+              - column:
+                  name: brand
+                  value: 'MERCEDES'
+              - column:
+                  name: number
+                  value: '1111KP-5'
+              - column:
+                  name: color
+                  value: 'WHITE'
+              - column:
+                  name: price
+                  value: 70000

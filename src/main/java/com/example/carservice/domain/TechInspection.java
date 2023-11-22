@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -15,27 +16,24 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@ToString
 public class TechInspection {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "date_of_inspection")
     @Temporal(TemporalType.DATE)
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate dateOfInspection;
 
-    @Column(name = "address")
     private String address;
 
-    @Column(name = "services")
     private String services;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id", referencedColumnName = "id")
-    @JsonBackReference
+    @ToString.Exclude
     private Car car;
 }
 
