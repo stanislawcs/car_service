@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CarMapper{
+public class CarMapper implements Mapper<Car,CarDTO> {
 
     private final ModelMapper modelMapper;
 
@@ -14,11 +14,13 @@ public class CarMapper{
         this.modelMapper = modelMapper;
     }
 
-    public Car toEntity(CarDTO carDTO){
-        return modelMapper.map(carDTO,Car.class);
+    @Override
+    public Car toEntity(CarDTO dto){
+        return modelMapper.map(dto,Car.class);
     }
 
-    public CarDTO toDTO(Car car){
-        return modelMapper.map(car,CarDTO.class);
+    @Override
+    public CarDTO toDTO(Car entity){
+        return modelMapper.map(entity,CarDTO.class);
     }
 }

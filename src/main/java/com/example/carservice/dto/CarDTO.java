@@ -22,6 +22,6 @@ public class CarDTO {
     private String color;
 
     @Min(value = 0)
-    @Max(value = Integer.MAX_VALUE)
+    @Max(value = Long.MAX_VALUE)
     private double price;
 }

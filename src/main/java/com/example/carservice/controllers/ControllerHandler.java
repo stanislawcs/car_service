@@ -40,4 +40,9 @@ public class ControllerHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleInspectionNotFoundException(InstantiationException e){
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage()),HttpStatus.NOT_FOUND);
+    }
+
 }
