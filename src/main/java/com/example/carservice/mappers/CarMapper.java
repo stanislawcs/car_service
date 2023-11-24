@@ -2,6 +2,7 @@ package com.example.carservice.mappers;
 
 import com.example.carservice.domain.Car;
 import com.example.carservice.dto.CarDTO;
+import com.example.carservice.dto.CarListDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -23,4 +24,9 @@ public class CarMapper implements Mapper<Car,CarDTO> {
     public CarDTO toDTO(Car entity){
         return modelMapper.map(entity,CarDTO.class);
     }
+
+    public CarListDTO toListDTO(Car entity){
+        return modelMapper.map(entity,CarListDTO.class);
+    }
+
 }

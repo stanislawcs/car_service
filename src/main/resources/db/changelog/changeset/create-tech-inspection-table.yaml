@@ -17,7 +17,6 @@ databaseChangeLog:
                   name: car_id
                   type: bigint
                   constraints:
-                    nullable: false
                     references: cars(id)
                     foreignKeyName: fk_tech_inspection_cars
                     deleteCascade: true
