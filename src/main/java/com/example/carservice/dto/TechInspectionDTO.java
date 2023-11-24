@@ -1,10 +1,14 @@
 package com.example.carservice.dto;
 
+import com.example.carservice.dto.validation.OnCreate;
+import com.example.carservice.dto.validation.OnUpdate;
 import jakarta.persistence.ElementCollection;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.sql.Update;
 
 import java.util.List;
 
@@ -12,8 +16,13 @@ import java.util.List;
 @Setter
 public class TechInspectionDTO {
 
-    @NotBlank
-    @Pattern(regexp = "^[\\p{L}\\d\\s.,-]+,\\s*[\\p{L}\\d\\s.,-]+,\\s*\\d+$", message = "Address format: city, street, build number")
+    @NotNull(message = "Car Id should not be null",
+            groups = {OnCreate.class, OnUpdate.class})
+    private Long carId;
+
+    @NotBlank(groups = {OnCreate.class,OnUpdate.class})
+    @Pattern(regexp = "^[\\p{L}\\d\\s.,-]+,\\s*[\\p{L}\\d\\s.,-]+,\\s*\\d+$",
+            message = "Address format: city, street, build number",groups = {OnCreate.class, OnUpdate.class})
     private String address;
 
     @ElementCollection(targetClass = String.class)

@@ -6,6 +6,7 @@ import com.example.carservice.domain.exceptions.CarNotFoundException;
 import com.example.carservice.dto.CarCreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
+import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
@@ -30,14 +31,20 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public CarDTO getOneById(Long id) {
-        return mapper.toDTO(carRepository.findById(id).
-                orElseThrow(() -> new CarNotFoundException("Car not found")));
+        Car car = carRepository.findById(id).
+                orElseThrow(() -> new CarNotFoundException("Car not found"));
+        CarDTO carDTO = mapper.toDTO(car);
+
+        List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(techMapper::toDTO).toList();
+        carDTO.setTechInspections(inspectionsDTO);
+
+        return carDTO;
     }
 
     @Override
     @Transactional
     public void update(CarDTO carDTO, Long id) {
-        Car car = mapper.toEntity(carDTO);
+        Car car = connectCarsAndInspections(carDTO);
         car.setId(id);
         carRepository.save(car);
     }
@@ -45,9 +52,9 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional
     public CarCreationResponse create(CarDTO carDTO) {
-        Car car = mapper.toEntity(carDTO);
-        car.setTechInspections(carDTO.getTechInspections().stream().map(techMapper::toEntity).toList());
+        Car car = connectCarsAndInspections(carDTO);
         carRepository.save(car);
+
         CarCreationResponse response = new CarCreationResponse();
         response.setId(car.getId());
         return response;
@@ -65,5 +72,22 @@ public class CarServiceImpl implements CarService {
                 .map(mapper::toListDTO).toList();
     }
 
+    private Car connectCarsAndInspections(final CarDTO carDTO){
+        Car car = mapper.toEntity(carDTO);
+
+        if(carDTO.getTechInspections() != null){
+
+            List<TechInspection> inspections = carDTO.getTechInspections().stream()
+                    .map(ti->{
+                        TechInspection inspection = techMapper.toEntity(ti);
+                        inspection.setCar(car);
+                        return inspection;
+                    }).toList();
+
+            car.setTechInspections(inspections);
+        }
+
+        return car;
+    }
 
 }

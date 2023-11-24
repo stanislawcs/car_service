@@ -31,7 +31,7 @@ public class ControllerHandler {
     public ResponseEntity<Map<String, String>> handleValidationsException(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
 
-        e.getBindingResult().getAllErrors().forEach((error) -> {
+        e.getBindingResult().getAllErrors().forEach(error -> {
             String field = ((FieldError) error).getField();
             String message = error.getDefaultMessage();
             errors.put(field, message);

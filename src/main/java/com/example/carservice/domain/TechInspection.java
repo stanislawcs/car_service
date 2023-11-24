@@ -8,6 +8,7 @@ import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -34,8 +35,17 @@ public class TechInspection {
     private String services;
 
     @ManyToOne
-    @JoinColumn(name = "car_id", referencedColumnName = "id")
+    @JoinColumn(name = "car_id",
+            foreignKey = @ForeignKey(name = "FK_TECH_INSPECTION_CARS"))
     @ToString.Exclude
     private Car car;
+
+    public void setCar(final Car car){
+        if(car.getTechInspections() == null)
+            car.setTechInspections(new ArrayList<>());
+
+        car.getTechInspections().add(this);
+        this.car = car;
+    }
 }
 

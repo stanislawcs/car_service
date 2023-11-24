@@ -33,7 +33,7 @@ public class Car {
     @Column(nullable = false)
     private double price;
 
-    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<TechInspection> techInspections;
 }
