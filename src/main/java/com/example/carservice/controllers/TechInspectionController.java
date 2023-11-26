@@ -2,6 +2,7 @@ package com.example.carservice.controllers;
 
 import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.dto.validation.OnCreate;
+import com.example.carservice.dto.validation.OnUpdate;
 import com.example.carservice.services.TechInspectionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,8 @@ public class TechInspectionController {
         return new ResponseEntity<>("Inspection is added", HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<String> update(@RequestBody @Valid TechInspectionDTO techInspectionDTO,
+    @PutMapping("/{id}")
+    public ResponseEntity<String> update(@RequestBody @Validated(OnUpdate.class) TechInspectionDTO techInspectionDTO,
                                          @PathVariable("id") Long id) {
 
         techInspectionService.update(techInspectionDTO, id);

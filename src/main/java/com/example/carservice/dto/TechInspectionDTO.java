@@ -17,7 +17,7 @@ import java.util.List;
 public class TechInspectionDTO {
 
     @NotNull(message = "Car Id should not be null",
-            groups = {OnCreate.class, OnUpdate.class})
+            groups = OnCreate.class)
     private Long carId;
 
     @NotBlank(groups = {OnCreate.class,OnUpdate.class})

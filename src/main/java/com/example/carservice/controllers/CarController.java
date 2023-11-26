@@ -4,8 +4,8 @@ import com.example.carservice.dto.CarCreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 import com.example.carservice.dto.validation.OnCreate;
+import com.example.carservice.dto.validation.OnUpdate;
 import com.example.carservice.services.CarService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +20,7 @@ import java.util.List;
 public class CarController {
 
     private final CarService carService;
+
 
     @GetMapping
     public ResponseEntity<List<CarListDTO>> getAll(){
@@ -36,9 +37,9 @@ public class CarController {
         return new ResponseEntity<>(carService.create(carDTO), HttpStatus.CREATED);
     }
 
-    @PutMapping("/edit/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable("id") Long id,
-                                         @RequestBody @Valid CarDTO carDTO) {
+                                         @RequestBody @Validated(OnUpdate.class) CarDTO carDTO) {
         carService.update(carDTO, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

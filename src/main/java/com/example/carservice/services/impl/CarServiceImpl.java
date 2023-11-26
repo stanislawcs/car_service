@@ -38,6 +38,7 @@ public class CarServiceImpl implements CarService {
         List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(techMapper::toDTO).toList();
         carDTO.setTechInspections(inspectionsDTO);
 
+        //System.out.println(StructMapper.INSTANCE.toDTO(car));
         return carDTO;
     }
 

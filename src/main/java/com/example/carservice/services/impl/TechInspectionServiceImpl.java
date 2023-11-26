@@ -36,6 +36,7 @@ public class TechInspectionServiceImpl implements TechInspectionService {
     public void update(TechInspectionDTO techInspectionDTO, Long id) {
         TechInspection techInspection = mapper.toEntity(techInspectionDTO);
         techInspection.setId(id);
+        techInspection.setCar(mapper.toEntity(getOneById(id)).getCar());
         techInspectionRepository.save(techInspection);
     }
 

@@ -22,10 +22,10 @@ public class ControllerHandler {
         return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.NOT_FOUND);
     }
 
-//    @ExceptionHandler
-//    public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
-//        return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
-//    }
+    @ExceptionHandler
+    public ResponseEntity<ExceptionResponse> handleRuntimeException(RuntimeException e) {
+        return new ResponseEntity<>(new ExceptionResponse(e.getMessage()), HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler
     public ResponseEntity<Map<String, String>> handleValidationsException(MethodArgumentNotValidException e) {
