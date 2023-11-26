@@ -3,30 +3,33 @@ package com.example.carservice.mappers;
 import com.example.carservice.domain.Car;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 
-@Component
-public class CarMapper implements Mapper<Car,CarDTO> {
+import java.util.Arrays;
+import java.util.List;
 
-    private final ModelMapper modelMapper;
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
-    public CarMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
+@Mapper(componentModel = SPRING)
+public interface CarMapper {
+
+    CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
+
+    CarDTO toDTO(Car car);
+
+    default List<String> mapServices(String services) {
+
+        return Arrays.asList(services.split(","));
     }
 
-    @Override
-    public Car toEntity(CarDTO dto){
-        return modelMapper.map(dto,Car.class);
+    default String mapServices(List<String> services){
+        return String.join(",", services);
     }
 
-    @Override
-    public CarDTO toDTO(Car entity){
-        return modelMapper.map(entity,CarDTO.class);
-    }
+    Car toEntity(CarDTO carDTO);
 
-    public CarListDTO toListDTO(Car entity){
-        return modelMapper.map(entity,CarListDTO.class);
-    }
+    CarListDTO toListDTO(Car car);
 
 }
+

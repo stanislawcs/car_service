@@ -9,7 +9,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 @Setter
@@ -40,9 +39,9 @@ public class TechInspection {
     @ToString.Exclude
     private Car car;
 
-    public void setCar(final Car car){
-        if(car.getTechInspections() == null)
-            car.setTechInspections(new ArrayList<>());
+    public void setCar(final Car car) {
+        //if (car.getTechInspections() == null)
+        car.setTechInspections(new ArrayList<>());
 
         car.getTechInspections().add(this);
         this.car = car;

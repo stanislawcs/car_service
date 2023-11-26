@@ -11,6 +11,7 @@ import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
+import com.example.carservice.services.TechInspectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,20 +26,18 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
-    private final CarMapper mapper;
-    private final TechInspectionMapper techMapper;
+    private final TechInspectionService techInspectionService;
 
 
     @Override
     public CarDTO getOneById(Long id) {
         Car car = carRepository.findById(id).
                 orElseThrow(() -> new CarNotFoundException("Car not found"));
-        CarDTO carDTO = mapper.toDTO(car);
+        CarDTO carDTO = CarMapper.INSTANCE.toDTO(car);
 
-        List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(techMapper::toDTO).toList();
+        List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(TechInspectionMapper.INSTANCE::toDTO).toList();
         carDTO.setTechInspections(inspectionsDTO);
 
-        //System.out.println(StructMapper.INSTANCE.toDTO(car));
         return carDTO;
     }
 
@@ -70,17 +69,17 @@ public class CarServiceImpl implements CarService {
     @Override
     public List<CarListDTO> getAll() {
         return carRepository.findAll().stream()
-                .map(mapper::toListDTO).toList();
+                .map(CarMapper.INSTANCE::toListDTO).toList();
     }
 
-    private Car connectCarsAndInspections(final CarDTO carDTO){
-        Car car = mapper.toEntity(carDTO);
+    private Car connectCarsAndInspections(final CarDTO carDTO) {
+        Car car = CarMapper.INSTANCE.toEntity(carDTO);
 
-        if(carDTO.getTechInspections() != null){
+        if (carDTO.getTechInspections() != null) {
 
             List<TechInspection> inspections = carDTO.getTechInspections().stream()
-                    .map(ti->{
-                        TechInspection inspection = techMapper.toEntity(ti);
+                    .map(ti -> {
+                        TechInspection inspection = TechInspectionMapper.INSTANCE.toEntity(ti);
                         inspection.setCar(car);
                         return inspection;
                     }).toList();

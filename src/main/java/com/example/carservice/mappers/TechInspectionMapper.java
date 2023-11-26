@@ -2,27 +2,33 @@ package com.example.carservice.mappers;
 
 import com.example.carservice.domain.TechInspection;
 import com.example.carservice.dto.TechInspectionDTO;
-import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
 import java.util.Arrays;
+import java.util.List;
 
-@Component
-@RequiredArgsConstructor
-public class TechInspectionMapper implements Mapper<TechInspection, TechInspectionDTO>{
+import static org.mapstruct.MappingConstants.ComponentModel.SPRING;
 
-    private final ModelMapper modelMapper;
+@Mapper(componentModel = SPRING)
+public interface TechInspectionMapper {
 
-    @Override
-    public TechInspection toEntity(TechInspectionDTO dto) {
-        return modelMapper.map(dto,TechInspection.class);
+    TechInspectionMapper INSTANCE = Mappers.getMapper(TechInspectionMapper.class);
+
+    @Mapping(target = "carId", source = "car.id")
+    TechInspectionDTO toDTO(TechInspection techInspection);
+
+    @Mapping(target = "car.id",source = "carId")
+    TechInspection toEntity(TechInspectionDTO techInspectionDTO);
+
+    default List<String> mapServices(String services) {
+
+        return Arrays.asList(services.split(","));
     }
 
-    @Override
-    public TechInspectionDTO toDTO(TechInspection entity) {
-        TechInspectionDTO dto = modelMapper.map(entity,TechInspectionDTO.class);
-        dto.setServices(Arrays.asList(entity.getServices().split(",")));
-        return dto;
+    default String mapServices(List<String> services){
+        return String.join(",", services);
     }
+
 }

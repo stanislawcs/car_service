@@ -8,7 +8,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-import org.hibernate.sql.Update;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public class TechInspectionDTO {
             groups = OnCreate.class)
     private Long carId;
 
-    @NotBlank(groups = {OnCreate.class,OnUpdate.class})
+    @NotBlank(groups = {OnCreate.class, OnUpdate.class})
     @Pattern(regexp = "^[\\p{L}\\d\\s.,-]+,\\s*[\\p{L}\\d\\s.,-]+,\\s*\\d+$",
-            message = "Address format: city, street, build number",groups = {OnCreate.class, OnUpdate.class})
+            message = "Address format: city, street, build number", groups = {OnCreate.class, OnUpdate.class})
     private String address;
 
     @ElementCollection(targetClass = String.class)
