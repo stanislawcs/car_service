@@ -13,6 +13,7 @@ import java.util.List;
 
 @Getter
 @Setter
+@ToString
 public class CarDTO {
 
     @NotNull
@@ -31,6 +32,7 @@ public class CarDTO {
     @Min(value = 0)
     @Max(value = Long.MAX_VALUE)
     private double price;
+
 
     private List<TechInspectionDTO> techInspections;
 }

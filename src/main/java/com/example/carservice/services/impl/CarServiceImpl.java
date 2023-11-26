@@ -8,11 +8,13 @@ import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.mappers.CarMapper;
+import com.example.carservice.mappers.CarMapperStruct;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +39,8 @@ public class CarServiceImpl implements CarService {
 
         List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(techMapper::toDTO).toList();
         carDTO.setTechInspections(inspectionsDTO);
+
+        System.out.println(CarMapperStruct.INSTANCE.toDTO(car));
 
         //System.out.println(StructMapper.INSTANCE.toDTO(car));
         return carDTO;
