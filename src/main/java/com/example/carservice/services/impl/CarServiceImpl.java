@@ -7,15 +7,20 @@ import com.example.carservice.dto.CarCreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 import com.example.carservice.dto.TechInspectionDTO;
+import com.example.carservice.dto.converter.Response;
 import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -25,16 +30,20 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+    private final RestTemplate restTemplate;
+    private final ObjectMapper objectMapper;
 
 
     @Override
-    public CarDTO getOneById(Long id) {
+    public CarDTO getOneById(Long id) throws IOException {
         Car car = carRepository.findById(id).
                 orElseThrow(() -> new CarNotFoundException("Car not found"));
         CarDTO carDTO = CarMapper.INSTANCE.toDTO(car);
 
         List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(TechInspectionMapper.INSTANCE::toDTO).toList();
         carDTO.setTechInspections(inspectionsDTO);
+
+        getPriceInUSD(carDTO);
 
         return carDTO;
     }
@@ -86,6 +95,16 @@ public class CarServiceImpl implements CarService {
         }
 
         return car;
+    }
+
+    private void getPriceInUSD(CarDTO carDTO) throws IOException {
+        String url = "http://localhost:8080/converter/get-rate?first-currency=USD&second-currency=BYN";
+
+        String response = restTemplate.getForObject(url, String.class);
+        Response usdResponse = objectMapper.readValue(response, Response.class);
+
+
+        carDTO.setUsdPrice(carDTO.getPrice()/usdResponse.getOfficialRate());
     }
 
 }

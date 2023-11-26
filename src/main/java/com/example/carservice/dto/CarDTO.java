@@ -32,5 +32,7 @@ public class CarDTO {
     @Max(value = Long.MAX_VALUE)
     private double price;
 
+    private double usdPrice;
+
     private List<TechInspectionDTO> techInspections;
 }
