@@ -11,7 +11,6 @@ import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
-import com.example.carservice.services.TechInspectionService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +25,6 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
-    private final TechInspectionService techInspectionService;
 
 
     @Override

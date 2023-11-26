@@ -32,4 +32,3 @@ public interface CarMapper {
     CarListDTO toListDTO(Car car);
 
 }
-

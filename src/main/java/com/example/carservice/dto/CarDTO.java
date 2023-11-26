@@ -22,6 +22,7 @@ public class CarDTO {
     private CarBrand brand;
 
     @NotBlank(message = "Number should not be null")
+    @Pattern(regexp = "\\d{4}[A-Z]{2}-[1-7]",groups = {OnCreate.class,OnUpdate.class})
     @Size(min = 8, max = 8, message = "Size should be 8 symbols", groups = {OnCreate.class, OnUpdate.class})
     private String number;
 
