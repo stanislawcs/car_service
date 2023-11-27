@@ -12,15 +12,17 @@ import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
-import com.fasterxml.jackson.core.JsonProcessingException;
+import com.example.carservice.services.TechInspectionService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -29,10 +31,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CarServiceImpl implements CarService {
 
+    private final TechInspectionService techInspectionService;
     private final CarRepository carRepository;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
 
+    @Value("${api.url}")
+    private String url;
 
     @Override
     public CarDTO getOneById(Long id) throws IOException {
@@ -51,9 +56,35 @@ public class CarServiceImpl implements CarService {
     @Override
     @Transactional
     public void update(CarDTO carDTO, Long id) {
-        Car car = connectCarsAndInspections(carDTO);
-        car.setId(id);
-        carRepository.save(car);
+        Car carToUpdate = carRepository.findById(id).
+                orElseThrow(()->new CarNotFoundException("Car not found"));
+
+        carToUpdate.setBrand(carDTO.getBrand());
+        carToUpdate.setNumber(carDTO.getNumber());
+        carToUpdate.setColor(carDTO.getColor());
+        carToUpdate.setPrice(carDTO.getPrice());
+
+        List<TechInspectionDTO> inspectionsDTO = carDTO.getTechInspections().stream().map(x->{
+            x.setCarId(id);
+            return x;}).toList();
+
+        // то есть мы должны связать дтошные то и те которые есть в бд, и пройтись по двум спискам найдя разницу
+        List<TechInspection> techInspections = CarMapper.INSTANCE.toEntity(carDTO).getTechInspections();
+
+        for (TechInspection techInspection : techInspections) {
+            techInspection.setCar(carToUpdate);
+            for (int j = 0; j < carToUpdate.getTechInspections().size(); j++) {
+
+                if(techInspection.getAddress().equals(carToUpdate.getTechInspections().get(j).getAddress())&&
+                        techInspection.getDateOfInspection().toString().equals(carToUpdate.getTechInspections().get(j).getDateOfInspection().toString())) {
+                    carToUpdate.getTechInspections().get(j).setServices(techInspection.getServices());
+
+                }
+            }
+        }
+
+
+        carRepository.save(carToUpdate);
     }
 
     @Override
@@ -87,6 +118,9 @@ public class CarServiceImpl implements CarService {
             List<TechInspection> inspections = carDTO.getTechInspections().stream()
                     .map(ti -> {
                         TechInspection inspection = TechInspectionMapper.INSTANCE.toEntity(ti);
+                        if (car.getTechInspections() == null)
+                            car.setTechInspections(new ArrayList<>());
+                        car.getTechInspections().add(inspection);
                         inspection.setCar(car);
                         return inspection;
                     }).toList();
@@ -97,14 +131,30 @@ public class CarServiceImpl implements CarService {
         return car;
     }
 
+//    private Car connectCarAndInspectionsForUpdate(final CarDTO carDTO) {
+//        Car car = CarMapper.INSTANCE.toEntity(carDTO);
+//
+//        if (carDTO.getTechInspections() != null) {
+//            List<TechInspection> inspections = carDTO.getTechInspections().stream()
+//                    .map(tiDTO -> {
+//                        TechInspection inspection = TechInspectionMapper.INSTANCE.toEntity(tiDTO);
+//                        car.setTechInspections(new ArrayList<>());
+//                        inspection.setCar(car);
+//                        return inspection;
+//                    }).toList();
+//
+//            car.setTechInspections(inspections);
+//        }
+//
+//        return car;
+//    }
+
     private void getPriceInUSD(CarDTO carDTO) throws IOException {
-        String url = "http://localhost:8080/converter/get-rate?first-currency=USD&second-currency=BYN";
 
         String response = restTemplate.getForObject(url, String.class);
         Response usdResponse = objectMapper.readValue(response, Response.class);
 
-
-        carDTO.setUsdPrice(carDTO.getPrice()/usdResponse.getOfficialRate());
+        carDTO.setUsdPrice(carDTO.getPrice() / usdResponse.getOfficialRate());
     }
 
 }

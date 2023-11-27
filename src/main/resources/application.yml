@@ -16,3 +16,6 @@ spring:
 
 server:
   port: 7071
+
+api:
+  url: http://localhost:8080/converter/get-rate?first-currency=USD&second-currency=BYN

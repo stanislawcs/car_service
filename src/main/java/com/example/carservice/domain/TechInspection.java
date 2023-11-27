@@ -1,5 +1,6 @@
 package com.example.carservice.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,7 @@ public class TechInspection {
     private Long id;
 
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)
     private LocalDate dateOfInspection = LocalDate.now();
 
@@ -40,10 +41,6 @@ public class TechInspection {
     private Car car;
 
     public void setCar(final Car car) {
-        //if (car.getTechInspections() == null)
-        car.setTechInspections(new ArrayList<>());
-
-        car.getTechInspections().add(this);
         this.car = car;
     }
 }
