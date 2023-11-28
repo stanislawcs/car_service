@@ -14,9 +14,6 @@ import java.util.List;
 @Setter
 public class CarDTO {
 
-    @NotNull
-    private Long id;
-
     @Valid
     @NotNull(groups = {OnCreate.class, OnUpdate.class}, message = "Brand should not be null")
     private CarBrand brand;

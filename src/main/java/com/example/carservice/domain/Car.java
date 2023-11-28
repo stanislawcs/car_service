@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Cascade;
 
 import java.util.List;
 
@@ -37,4 +36,32 @@ public class Car {
     @OneToMany(mappedBy = "car", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @ToString.Exclude
     private List<TechInspection> techInspections;
+
+    public boolean equals(final Object o) {
+        if (o == this) return true;
+        if (!(o instanceof Car)) return false;
+        final Car other = (Car) o;
+        if (!other.canEqual((Object) this)) return false;
+        final Object this$id = this.getId();
+        final Object other$id = other.getId();
+        if (this$id == null ? other$id != null : !this$id.equals(other$id)) return false;
+        final Object this$number = this.getNumber();
+        final Object other$number = other.getNumber();
+        if (this$number == null ? other$number != null : !this$number.equals(other$number)) return false;
+        return true;
+    }
+
+    protected boolean canEqual(final Object other) {
+        return other instanceof Car;
+    }
+
+    public int hashCode() {
+        final int PRIME = 59;
+        int result = 1;
+        final Object $id = this.getId();
+        result = result * PRIME + ($id == null ? 43 : $id.hashCode());
+        final Object $number = this.getNumber();
+        result = result * PRIME + ($number == null ? 43 : $number.hashCode());
+        return result;
+    }
 }

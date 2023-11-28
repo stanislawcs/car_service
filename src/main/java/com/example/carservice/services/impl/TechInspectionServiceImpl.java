@@ -2,6 +2,7 @@ package com.example.carservice.services.impl;
 
 import com.example.carservice.domain.TechInspection;
 import com.example.carservice.domain.exceptions.InspectionNotFoundException;
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.TechInspectionRepository;
@@ -16,26 +17,28 @@ import org.springframework.transaction.annotation.Transactional;
 public class TechInspectionServiceImpl implements TechInspectionService {
 
     private final TechInspectionRepository techInspectionRepository;
+    private final TechInspectionMapper techInspectionMapper;
 
     @Override
     public TechInspectionDTO getOneById(Long id) {
-        return TechInspectionMapper.INSTANCE.toDTO(techInspectionRepository.
+        return techInspectionMapper.toDTO(techInspectionRepository.
                 findById(id).orElseThrow(()-> new InspectionNotFoundException("Inspection not found")));
     }
 
     @Override
     @Transactional
-    public void save(TechInspectionDTO techInspectionDTO) {
-        TechInspection techInspection = TechInspectionMapper.INSTANCE.toEntity(techInspectionDTO);
+    public CreationResponse save(TechInspectionDTO techInspectionDTO) {
+        TechInspection techInspection = techInspectionMapper.toEntity(techInspectionDTO);
         techInspectionRepository.save(techInspection);
+        return new CreationResponse(techInspection.getId());
     }
 
     @Override
     @Transactional
     public void update(TechInspectionDTO techInspectionDTO, Long id) {
-        TechInspection techInspection = TechInspectionMapper.INSTANCE.toEntity(techInspectionDTO);
+        TechInspection techInspection = techInspectionMapper.toEntity(techInspectionDTO);
         techInspection.setId(id);
-        techInspection.setCar(TechInspectionMapper.INSTANCE.toEntity(getOneById(id)).getCar());
+        techInspection.setCar(techInspectionMapper.toEntity(getOneById(id)).getCar());
         techInspectionRepository.save(techInspection);
     }
 

@@ -1,10 +1,10 @@
 package com.example.carservice.controllers;
 
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.dto.validation.OnCreate;
 import com.example.carservice.dto.validation.OnUpdate;
 import com.example.carservice.services.TechInspectionService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,23 +24,23 @@ public class TechInspectionController {
     }
 
     @PostMapping
-    public ResponseEntity<String> add(@RequestBody @Validated(OnCreate.class) TechInspectionDTO techInspectionDTO) {
-        techInspectionService.save(techInspectionDTO);
-        return new ResponseEntity<>("Inspection is added", HttpStatus.CREATED);
+    public ResponseEntity<CreationResponse> add(@RequestBody @Validated(OnCreate.class) TechInspectionDTO techInspectionDTO) {
+
+        return new ResponseEntity<>(techInspectionService.save(techInspectionDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> update(@RequestBody @Validated(OnUpdate.class) TechInspectionDTO techInspectionDTO,
-                                         @PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> update(@RequestBody @Validated(OnUpdate.class) TechInspectionDTO techInspectionDTO,
+                                             @PathVariable("id") Long id) {
 
         techInspectionService.update(techInspectionDTO, id);
-        return new ResponseEntity<>("Inspection is updated", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") Long id) {
+    public ResponseEntity<HttpStatus> delete(@PathVariable("id") Long id) {
         techInspectionService.delete(id);
-        return new ResponseEntity<>("Inspection is deleted", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

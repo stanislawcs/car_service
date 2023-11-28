@@ -1,6 +1,6 @@
 package com.example.carservice.controllers;
 
-import com.example.carservice.dto.CarCreationResponse;
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 import com.example.carservice.dto.validation.OnCreate;
@@ -34,7 +34,7 @@ public class CarController {
     }
 
     @PostMapping
-    public ResponseEntity<CarCreationResponse> create(@RequestBody @Validated(OnCreate.class) CarDTO carDTO) {
+    public ResponseEntity<CreationResponse> create(@RequestBody @Validated(OnCreate.class) CarDTO carDTO) {
         return new ResponseEntity<>(carService.create(carDTO), HttpStatus.CREATED);
     }
 

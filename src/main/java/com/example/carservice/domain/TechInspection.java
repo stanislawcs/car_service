@@ -2,10 +2,7 @@ package com.example.carservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
@@ -17,6 +14,7 @@ import java.util.ArrayList;
 @Table(name = "tech_inspection")
 @ToString
 @NoArgsConstructor
+@EqualsAndHashCode(of = {"dateOfInspection", "address"})
 public class TechInspection {
 
     @Id

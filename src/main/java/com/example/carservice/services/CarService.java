@@ -1,6 +1,6 @@
 package com.example.carservice.services;
 
-import com.example.carservice.dto.CarCreationResponse;
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 
@@ -12,7 +12,7 @@ public interface CarService {
 
     void update(CarDTO car, Long id);
 
-    CarCreationResponse create(CarDTO carDTO);
+    CreationResponse create(CarDTO carDTO);
 
     void delete(Long id);
 
