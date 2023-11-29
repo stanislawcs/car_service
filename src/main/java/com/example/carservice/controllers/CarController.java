@@ -1,8 +1,8 @@
 package com.example.carservice.controllers;
 
-import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.validation.OnCreate;
 import com.example.carservice.dto.validation.OnUpdate;
 import com.example.carservice.services.CarService;
@@ -24,8 +24,8 @@ public class CarController {
 
 
     @GetMapping
-    public ResponseEntity<List<CarListDTO>> getAll(){
-        return new ResponseEntity<>(carService.getAll(),HttpStatus.OK);
+    public ResponseEntity<List<CarListDTO>> getAll() {
+        return new ResponseEntity<>(carService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -40,7 +40,7 @@ public class CarController {
 
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@PathVariable("id") Long id,
-                                         @RequestBody @Validated(OnUpdate.class) CarDTO carDTO) {
+                                             @RequestBody @Validated(OnUpdate.class) CarDTO carDTO) {
         carService.update(carDTO, id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

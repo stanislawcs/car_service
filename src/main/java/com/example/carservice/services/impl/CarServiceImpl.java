@@ -3,22 +3,19 @@ package com.example.carservice.services.impl;
 import com.example.carservice.domain.Car;
 import com.example.carservice.domain.TechInspection;
 import com.example.carservice.domain.exceptions.CarNotFoundException;
-import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
+import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.TechInspectionDTO;
-import com.example.carservice.dto.converter.Response;
 import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
 import com.example.carservice.services.CarService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.carservice.services.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.client.RestTemplate;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,26 +28,15 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
-    private final RestTemplate restTemplate;
-    private final ObjectMapper objectMapper;
+    private final CurrencyService currencyService;
     private final CarMapper carMapper;
     private final TechInspectionMapper techInspectionMapper;
-
-    @Value("${api.url}")
-    private String url;
 
     @Override
     public CarDTO getOneById(Long id) throws IOException {
         Car car = carRepository.findById(id).
                 orElseThrow(() -> new CarNotFoundException("Car not found"));
-        CarDTO carDTO = carMapper.toDTO(car);
-
-        List<TechInspectionDTO> inspectionsDTO = car.getTechInspections().stream().map(techInspectionMapper::toDTO).toList();
-        carDTO.setTechInspections(inspectionsDTO);
-
-        getPriceInUSD(carDTO);
-
-        return carDTO;
+        return carMapper.toDTO(car,currencyService.getCurrencyRate());
     }
 
     @Override
@@ -59,24 +45,8 @@ public class CarServiceImpl implements CarService {
         Car carToUpdate = carRepository.findById(id).
                 orElseThrow(() -> new CarNotFoundException("Car not found"));
 
-        Car car = carMapper.toEntity(carDTO);
-
-        for(int i = 0;i<carDTO.getTechInspections().size();i++){
-            TechInspection techInspection = techInspectionMapper.toEntity(carDTO.getTechInspections().get(i),new TechInspection());
-        }
-
-//
-//        for (TechInspection techInspection : car.getTechInspections()) {
-//            techInspection.setCar(carToUpdate);
-//            for (int j = 0; j < carToUpdate.getTechInspections().size(); j++) {
-//
-//                if (techInspection.equals(carToUpdate.getTechInspections().get(j))) {
-//
-//                    carToUpdate.getTechInspections().get(j).setServices(techInspection.getServices());
-//
-//                }
-//            }
-//        }
+        carMapper.toEntity(carDTO, carToUpdate);
+        carToUpdate.getTechInspections().forEach(ti -> ti.setCar(carToUpdate));
 
         carRepository.save(carToUpdate);
     }
@@ -121,15 +91,6 @@ public class CarServiceImpl implements CarService {
         }
 
         return car;
-    }
-
-
-    private void getPriceInUSD(CarDTO carDTO) throws IOException {
-
-        String response = restTemplate.getForObject(url, String.class);
-        Response usdResponse = objectMapper.readValue(response, Response.class);
-
-        carDTO.setUsdPrice(carDTO.getPrice() / usdResponse.getOfficialRate());
     }
 
 }

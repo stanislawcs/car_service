@@ -29,6 +29,13 @@ public class TechInspectionController {
         return new ResponseEntity<>(techInspectionService.save(techInspectionDTO), HttpStatus.CREATED);
     }
 
+    @PostMapping(value = "/{carId}")
+    public ResponseEntity<CreationResponse> addToCar(@PathVariable String carId,
+                                                     @RequestBody @Validated(OnCreate.class) TechInspectionDTO techInspectionDTO) {
+
+        return new ResponseEntity<>(techInspectionService.save(techInspectionDTO), HttpStatus.CREATED);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<HttpStatus> update(@RequestBody @Validated(OnUpdate.class) TechInspectionDTO techInspectionDTO,
                                              @PathVariable("id") Long id) {

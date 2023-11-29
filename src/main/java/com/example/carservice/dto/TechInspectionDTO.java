@@ -22,10 +22,6 @@ public class TechInspectionDTO {
 
     private Long id;
 
-    @NotNull(message = "Car Id should not be null",
-            groups = OnCreate.class)
-    private Long carId;
-
     @NotBlank(groups = {OnCreate.class,OnUpdate.class})
     @JsonFormat(pattern="yyyy-MM-dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
