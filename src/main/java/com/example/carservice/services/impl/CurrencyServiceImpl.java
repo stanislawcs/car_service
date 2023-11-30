@@ -27,7 +27,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Cacheable
     public Response getCurrencyRate() {
         log.info("put to cache");
-        return feignCurrency.getRate("USD", "BYN");
+        return feignCurrency.getRate("", "BYN");
     }
 
 

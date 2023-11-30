@@ -36,7 +36,7 @@ public interface CarMapper {
 
     @AfterMapping
     default void enrichUsdPrice(@MappingTarget CarDTO carDTO, Response response) {
-        if (response.getOfficialRate() == 0) {
+        if (response == null) {
             carDTO.setUsdPrice(0);
         } else {
             carDTO.setUsdPrice(round(carDTO.getPrice() / response.getOfficialRate()));

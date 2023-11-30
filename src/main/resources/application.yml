@@ -18,10 +18,12 @@ server:
   port: 7071
 
 feign:
+  circuitbreaker:
+    enabled: true
   hystrix:
-    enabled: false
+    enabled: true
   okhttp:
     enabled: true
 
 api:
-  url: http://localhost:8080/converter/get-rate?first-currency=USD&second-currency=BYN
+  url: http://localhost:8080/converter/get-rate
