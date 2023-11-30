@@ -22,7 +22,6 @@ public class CarController {
 
     private final CarService carService;
 
-
     @GetMapping
     public ResponseEntity<List<CarListDTO>> getAll() {
         return new ResponseEntity<>(carService.getAll(), HttpStatus.OK);

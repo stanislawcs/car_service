@@ -1,6 +1,5 @@
 package com.example.carservice.services.impl;
 
-import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.converter.Response;
 import com.example.carservice.services.CurrencyService;
 import org.springframework.context.annotation.Profile;

@@ -7,9 +7,5 @@ public interface TechInspectionService {
 
     TechInspectionDTO getOneById(Long id);
 
-    CreationResponse save(TechInspectionDTO techInspectionDTO);
-
-    void update(TechInspectionDTO techInspectionDTO, Long id);
-
-    void delete(Long id);
+    CreationResponse add(TechInspectionDTO techInspectionDTO, Long carId);
 }

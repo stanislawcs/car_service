@@ -17,5 +17,11 @@ spring:
 server:
   port: 7071
 
+feign:
+  hystrix:
+    enabled: false
+  okhttp:
+    enabled: true
+
 api:
   url: http://localhost:8080/converter/get-rate?first-currency=USD&second-currency=BYN

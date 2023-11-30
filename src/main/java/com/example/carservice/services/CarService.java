@@ -1,14 +1,13 @@
 package com.example.carservice.services;
 
-import com.example.carservice.dto.CreationResponse;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
+import com.example.carservice.dto.CreationResponse;
 
-import java.io.IOException;
 import java.util.List;
 
 public interface CarService {
-    CarDTO getOneById(Long id) throws IOException;
+    CarDTO getOneById(Long id);
 
     void update(CarDTO car, Long id);
 

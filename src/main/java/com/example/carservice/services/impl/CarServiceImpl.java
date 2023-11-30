@@ -6,7 +6,6 @@ import com.example.carservice.domain.exceptions.CarNotFoundException;
 import com.example.carservice.dto.CarDTO;
 import com.example.carservice.dto.CarListDTO;
 import com.example.carservice.dto.CreationResponse;
-import com.example.carservice.dto.TechInspectionDTO;
 import com.example.carservice.mappers.CarMapper;
 import com.example.carservice.mappers.TechInspectionMapper;
 import com.example.carservice.repositories.CarRepository;
@@ -17,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,11 +30,13 @@ public class CarServiceImpl implements CarService {
     private final CarMapper carMapper;
     private final TechInspectionMapper techInspectionMapper;
 
+
     @Override
-    public CarDTO getOneById(Long id) throws IOException {
+    public CarDTO getOneById(Long id) {
         Car car = carRepository.findById(id).
                 orElseThrow(() -> new CarNotFoundException("Car not found"));
-        return carMapper.toDTO(car,currencyService.getCurrencyRate());
+
+        return carMapper.toDTO(car, currencyService.getCurrencyRate());
     }
 
     @Override

@@ -24,7 +24,7 @@ public class Car {
     @Enumerated(EnumType.STRING)
     private CarBrand brand;
 
-    @Column(nullable = false,unique = true)
+    @Column(nullable = false, unique = true)
     private String number;
 
     @Column(nullable = false)
@@ -33,7 +33,7 @@ public class Car {
     @Column(nullable = false)
     private double price;
 
-    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY,cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<TechInspection> techInspections;
 
